@@ -3,9 +3,19 @@ const tempEle = document.querySelector(".temperature-value p");
 const desc = document.querySelector(".temperature-description p");
 const loca = document.querySelector(".location p");
 const notification = document.querySelector(".notification");
+const searchBar = document.getElementById('searchBar');
 const Kelvin = 273;
 const key = "dba1307e202ed696979050d4f5a5a838"
 
+searchBar.addEventListener('keyup', (e) => {
+    console.log(e.target.value);
+    searchBar.addEventListener('keypress', function (e) {
+        if (e.key === 'Enter') {
+            cityName= e.target.value.toLowerCase();
+            getCityWeather(cityName);
+        }
+    });
+});
 
 
 const weather = {};
@@ -61,6 +71,24 @@ tempEle.addEventListener("click", function(){
 
 function getWeather(latitude, longitude){
     let api = `http://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${key}`;
+    fetch(api) 
+        .then( function(response){
+            let data = response.json();
+            return data;        
+         })
+         .then(function(data){
+            weather.temperature.value = Math.floor(data.main.temp - Kelvin);
+            weather.description = data.weather[0].description;
+            weather.iconId = data.weather[0].icon;
+            weather.city = data.name;
+            weather.country = data.sys.country;
+        })
+        .then(function(){
+            showWeather();
+        });   
+};
+function getCityWeather(city){
+    let api = `http://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${key}`;
     fetch(api) 
         .then( function(response){
             let data = response.json();

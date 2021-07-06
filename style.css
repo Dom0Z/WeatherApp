@@ -106,6 +106,22 @@ body{
     text-align: center;
     font-size: 0.8em;
 }
+#searchBar {
+    width: 92.7%;
+    height: 25px;
+    border-radius: 4px;
+    border: 1px solid #eaeaea;
+    padding: 5px 10px;
+    font-size: 12px;
+}
 
+#searchWrapper {
+    position: relative;
+}
 
-
+#searchWrapper::after {
+    content: '🔍';
+    position: absolute;
+    top: 7px;
+    right: 15px;
+}
