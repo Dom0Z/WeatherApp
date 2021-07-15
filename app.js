@@ -69,39 +69,28 @@ tempEle.addEventListener("click", function(){
 
 });
 
-function getWeather(latitude, longitude){
+async function getWeather(latitude, longitude){
     let api = `http://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${key}`;
-    fetch(api) 
-        .then( function(response){
-            let data = response.json();
-            return data;        
-         })
-         .then(function(data){
-            weather.temperature.value = Math.floor(data.main.temp - Kelvin);
-            weather.description = data.weather[0].description;
-            weather.iconId = data.weather[0].icon;
-            weather.city = data.name;
-            weather.country = data.sys.country;
-        })
-        .then(function(){
-            showWeather();
-        });   
+    const resp = await fetch(api);
+    const data = await resp.json()  
+        
+    weather.temperature.value = Math.floor(data.main.temp - Kelvin);
+    weather.description = data.weather[0].description;
+    weather.iconId = data.weather[0].icon;
+    weather.city = data.name;
+    weather.country = data.sys.country;
+    showWeather();
+      
 };
-function getCityWeather(city){
+async function getCityWeather(city){
     let api = `http://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${key}`;
-    fetch(api) 
-        .then( function(response){
-            let data = response.json();
-            return data;        
-         })
-         .then(function(data){
-            weather.temperature.value = Math.floor(data.main.temp - Kelvin);
-            weather.description = data.weather[0].description;
-            weather.iconId = data.weather[0].icon;
-            weather.city = data.name;
-            weather.country = data.sys.country;
-        })
-        .then(function(){
-            showWeather();
-        });   
+    const resp = await fetch(api);
+    const data = await resp.json()     
+    weather.temperature.value = Math.floor(data.main.temp - Kelvin);
+    weather.description = data.weather[0].description;
+    weather.iconId = data.weather[0].icon;
+    weather.city = data.name;
+    weather.country = data.sys.country;
+    showWeather();
+           
 };
